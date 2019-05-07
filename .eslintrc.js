@@ -4,7 +4,7 @@ module.exports = {
     es6: true
   },
   extends: [
-    "plugin:@typescript-eslint/recommended",
+    "plugin:react-app/recommended",
     "prettier",
     "prettier/@typescript-eslint"
   ],
@@ -22,21 +22,6 @@ module.exports = {
   },
   root: true,
   rules: {
-    "@typescript-eslint/no-explicit-any": 0,
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/explicit-member-accessibility": "off",
-    indent: "off",
-    "@typescript-eslint/indent": ["error", 2],
-    "@typescript-eslint/no-unnecessary-type-assertion": "error",
-    "eol-last": ["error", "always"],
-    "func-style": ["error", "expression", { allowArrowFunctions: true }],
-    "newline-before-return": "error",
-    "no-dupe-class-members": "error",
-    "no-var": "error",
-    "object-shorthand": ["error", "always"],
-    "prefer-arrow-callback": "error",
-    "prefer-const": "error",
-    "prefer-spread": "error",
-    "require-yield": "error"
+    "@typescript-eslint/no-explicit-any": 0
   }
 };
