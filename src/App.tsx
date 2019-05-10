@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect } from "react";
 import { Button, Card, Modal } from "semantic-ui-react";
 import styled from "styled-components";
 import axios, { AxiosResponse } from "axios";
-import CharaList, { Character } from "./Charalist";
+import CharaModal, { Character } from "./charaModal";
 
 interface Title {
   id: number;
@@ -47,19 +47,22 @@ const App: FC = () => {
   }, []);
 
   function makeTitleLists() {
-    return titles.map((v: Title) => (
-      <StyledCard key={v.id}>
-        <TitleArea>
-          <Card.Header>{v.title}</Card.Header>
-          <Meta>{v.onAirDate}</Meta>
-        </TitleArea>
-        <Card.Content>
-          <Modal trigger={<Button>キャラクター一覧</Button>}>
-            <CharaList charalists={charalists} id={v.id} />
-          </Modal>
-        </Card.Content>
-      </StyledCard>
-    ));
+    return titles.map((v: Title) => {
+      const charalist = charalists.find(c => c.id === v.id);
+      return (
+        <StyledCard key={v.id}>
+          <TitleArea>
+            <Card.Header>{v.title}</Card.Header>
+            <Meta>{v.onAirDate}</Meta>
+          </TitleArea>
+          <Card.Content>
+            <Modal trigger={<Button>キャラクター一覧</Button>}>
+              {charalist && <CharaModal charalist={charalist} />}
+            </Modal>
+          </Card.Content>
+        </StyledCard>
+      );
+    });
   }
 
   return (
