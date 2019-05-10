@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Card, Modal } from "semantic-ui-react";
+import { Button, Card, Modal } from "semantic-ui-react";
 
 export interface Character {
   id: number;
@@ -7,16 +7,31 @@ export interface Character {
   name: string;
 }
 
-const charaModal: FC<{ charalist: Character }> = ({ charalist }) => (
-  <>
-    <Modal.Header>キャラクター一覧</Modal.Header>
-    <Modal.Content>
-      <Modal.Description>
-        <Card.Content key={charalist.id}>
-          <Card.Header>{charalist.name}</Card.Header>
-        </Card.Content>
-      </Modal.Description>
-    </Modal.Content>
-  </>
-);
-export default charaModal;
+interface Props {
+  bodies: Character[];
+  id: number;
+}
+
+const charaList: FC<Props> = ({ bodies, id }) => {
+  const characters = bodies
+    .filter(v => v.titleId === id)
+    .map((c: Character) => {
+      return (
+        <Modal.Content key={c.id}>
+          <Modal.Description>
+            <Card.Content>
+              <Card.Header>{c.name}</Card.Header>
+            </Card.Content>
+          </Modal.Description>
+        </Modal.Content>
+      );
+    });
+  return (
+    <Modal trigger={<Button>キャラクター一覧</Button>}>
+      <Modal.Header>キャラクタ一覧</Modal.Header>
+      {characters}
+    </Modal>
+  );
+};
+
+export default charaList;
