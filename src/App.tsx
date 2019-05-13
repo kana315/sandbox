@@ -1,27 +1,28 @@
 import React, { useReducer, useContext, Dispatch } from "react";
 
-type CounterState = {
-  count: number;
-};
-
 enum Action {
   reset = "reset",
-  increment = "increment",
-  decrement = "decrement"
+  onChange = "onChange"
 }
 
-const initialState: CounterState = { count: 0 };
+interface InputState {
+  text: string;
+}
 
-function reducer(state: CounterState, action: { type: Action }) {
+interface InputAction {
+  type: Action;
+  newText?: string;
+}
+
+const initialState: InputState = { text: "" };
+
+function reducer(state: InputState, action: InputAction): InputState {
   switch (action.type) {
     case Action.reset: {
       return initialState;
     }
-    case Action.increment: {
-      return { count: state.count + 1 };
-    }
-    case Action.decrement: {
-      return { count: state.count - 1 };
+    case Action.onChange: {
+      return { text: action.newText || "" };
     }
     default: {
       return state;
@@ -30,33 +31,36 @@ function reducer(state: CounterState, action: { type: Action }) {
 }
 
 // Container
-const CounterContext = React.createContext<CounterState>(initialState);
-const DispatchContext = React.createContext<Dispatch<{ type: Action }>>(
-  null as any
-);
+const InputContext = React.createContext<InputState>(initialState);
+const DispatchContext = React.createContext<Dispatch<InputAction>>(() => {});
 
 // Connected component
-function Counter() {
-  const state = useContext(CounterContext);
+function Input() {
+  const state = useContext(InputContext);
   const dispatch = useContext(DispatchContext);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch({
+      type: Action.onChange,
+      newText: e.currentTarget.value
+    });
+  };
   return (
     <div>
-      Count: {state.count}
+      Text:
+      <input onChange={handleChange} value={state.text} />
       <button onClick={() => dispatch({ type: Action.reset })}>Reset</button>
-      <button onClick={() => dispatch({ type: Action.increment })}>+</button>
-      <button onClick={() => dispatch({ type: Action.decrement })}>-</button>
     </div>
   );
 }
 
-export default function App({ initialCount }: { initialCount: number }) {
-  const [state, dispatch] = useReducer(reducer, { count: initialCount });
+export default function App({ initialValue }: { initialValue: string }) {
+  const [state, dispatch] = useReducer(reducer, { text: initialValue });
   return (
-    <CounterContext.Provider value={state}>
+    <InputContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
-        <Counter />
+        <Input />
       </DispatchContext.Provider>
-    </CounterContext.Provider>
+    </InputContext.Provider>
   );
 }
 
