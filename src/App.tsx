@@ -1,41 +1,62 @@
-import React, { useLayoutEffect, useRef } from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import useCounter from "./useCounter";
-import Demo from "./Demo";
+import React, { useReducer, useContext, Dispatch } from "react";
 
-const App: React.FC = () => {
-  const [count, dispatch] = useCounter({ type: "", value: 0 });
-  const textareaRef = useRef({} as HTMLTextAreaElement);
-  useLayoutEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.focus();
-    }
-  }, []);
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>{count.value}</p>
-        <button onClick={() => dispatch({ ...count, type: "increase" })}>
-          Up
-        </button>
-        <button onClick={() => dispatch({ ...count, type: "degrease" })}>
-          down
-        </button>
-        <textarea ref={textareaRef} />
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <Demo initialCount={3} />
-      </header>
-    </div>
-  );
+type CounterState = {
+  count: number;
 };
 
-export default App;
+enum Action {
+  reset = "reset",
+  increment = "increment",
+  decrement = "decrement"
+}
+
+const initialState: CounterState = { count: 0 };
+
+function reducer(state: CounterState, action: { type: Action }) {
+  switch (action.type) {
+    case Action.reset: {
+      return initialState;
+    }
+    case Action.increment: {
+      return { count: state.count + 1 };
+    }
+    case Action.decrement: {
+      return { count: state.count - 1 };
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
+// Container
+const CounterContext = React.createContext<CounterState>(initialState);
+const DispatchContext = React.createContext<Dispatch<{ type: Action }>>(
+  null as any
+);
+
+// Connected component
+function Counter() {
+  const state = useContext(CounterContext);
+  const dispatch = useContext(DispatchContext);
+  return (
+    <div>
+      Count: {state.count}
+      <button onClick={() => dispatch({ type: Action.reset })}>Reset</button>
+      <button onClick={() => dispatch({ type: Action.increment })}>+</button>
+      <button onClick={() => dispatch({ type: Action.decrement })}>-</button>
+    </div>
+  );
+}
+
+export default function App({ initialCount }: { initialCount: number }) {
+  const [state, dispatch] = useReducer(reducer, { count: initialCount });
+  return (
+    <CounterContext.Provider value={state}>
+      <DispatchContext.Provider value={dispatch}>
+        <Counter />
+      </DispatchContext.Provider>
+    </CounterContext.Provider>
+  );
+}
+
