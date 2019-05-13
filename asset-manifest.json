@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/sandbox/static/css/main.42cc8b22.chunk.css",
+    "main.js": "/sandbox/static/js/main.d8acabda.chunk.js",
+    "main.js.map": "/sandbox/static/js/main.d8acabda.chunk.js.map",
+    "runtime~main.js": "/sandbox/static/js/runtime~main.5864591c.js",
+    "runtime~main.js.map": "/sandbox/static/js/runtime~main.5864591c.js.map",
+    "static/css/2.556c19df.chunk.css": "/sandbox/static/css/2.556c19df.chunk.css",
+    "static/js/2.01b0e6e7.chunk.js": "/sandbox/static/js/2.01b0e6e7.chunk.js",
+    "static/js/2.01b0e6e7.chunk.js.map": "/sandbox/static/js/2.01b0e6e7.chunk.js.map",
+    "index.html": "/sandbox/index.html",
+    "precache-manifest.0c0b9933927dae0c4961c61c8876982a.js": "/sandbox/precache-manifest.0c0b9933927dae0c4961c61c8876982a.js",
+    "service-worker.js": "/sandbox/service-worker.js",
+    "static/css/2.556c19df.chunk.css.map": "/sandbox/static/css/2.556c19df.chunk.css.map",
+    "static/css/main.42cc8b22.chunk.css.map": "/sandbox/static/css/main.42cc8b22.chunk.css.map",
+    "static/media/semantic.min.css": "/sandbox/static/media/outline-icons.ef60a4f6.woff"
+  }
+}
