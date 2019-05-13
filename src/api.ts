@@ -1,11 +1,8 @@
-import axios, { AxiosResponse } from "axios";
+import mock from "./db.json";
 
 export async function fetchAnime(): Promise<any> {
   try {
-    const res: AxiosResponse<any> = await axios.get(
-      "http://localhost:4567/titles"
-    );
-    return res.data;
+    return Promise.resolve().then(() => mock.titles);
   } catch (error) {
     throw new Error(error.message);
   }
@@ -13,10 +10,7 @@ export async function fetchAnime(): Promise<any> {
 
 export async function fetchCharacters(): Promise<any> {
   try {
-    const res: AxiosResponse<any> = await axios.get(
-      "http://localhost:4567/charalists"
-    );
-    return res.data;
+    return Promise.resolve().then(() => mock.charalists);
   } catch (error) {
     throw new Error(error.message);
   }
