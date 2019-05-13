@@ -20,9 +20,10 @@ const titleCard: FC<Props> = ({ anime, bodies }) => {
       <TitleArea>
         <Card.Header>{anime.title}</Card.Header>
         <Meta>{anime.onAirDate}</Meta>
-        <CharaModal bodies={bodies} id={anime.id} />
       </TitleArea>
-      <Card.Content />
+      <Card.Content>
+        <CharaModal bodies={bodies} id={anime.id} />
+      </Card.Content>
     </StyledCard>
   );
 };
