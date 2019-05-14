@@ -1,46 +1,52 @@
-import React, { useReducer, useContext, Dispatch } from "react";
+import React, { useReducer, useContext } from "react";
 
-enum Action {
-  reset = "reset",
-  onChange = "onChange"
-}
-
-interface InputState {
+type InputState = Readonly<{
   text: string;
-}
+}>;
 
-interface InputAction {
-  type: Action;
-  newText?: string;
-}
+const types = {
+  reset: "reset" as "reset",
+  onChange: "onChange" as "onChange"
+};
+
+type InputAction =
+  | {
+      type: "reset";
+      newText?: string;
+    }
+  | {
+      type: "onChange";
+      newText: string;
+    };
 
 const initialState: InputState = { text: "" };
 
-function reducer(state: InputState, action: InputAction): InputState {
+const reducer: React.Reducer<InputState, InputAction> = (state, action) => {
   switch (action.type) {
-    case Action.reset: {
+    case types.reset: {
       return initialState;
     }
-    case Action.onChange: {
-      return { text: action.newText || "" };
+    case types.onChange: {
+      return { text: action.newText };
     }
     default: {
       return state;
     }
   }
-}
-
+};
 // Container
 const InputContext = React.createContext<InputState>(initialState);
-const DispatchContext = React.createContext<Dispatch<InputAction>>(() => {});
+const DispatchContext = React.createContext<React.Dispatch<InputAction>>(
+  () => {}
+);
 
 // Connected component
-function Input() {
+const Input: React.FC<{}> = () => {
   const state = useContext(InputContext);
   const dispatch = useContext(DispatchContext);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
-      type: Action.onChange,
+      type: types.onChange,
       newText: e.currentTarget.value
     });
   };
@@ -48,12 +54,12 @@ function Input() {
     <div>
       Text:
       <input onChange={handleChange} value={state.text} />
-      <button onClick={() => dispatch({ type: Action.reset })}>Reset</button>
+      <button onClick={() => dispatch({ type: types.reset })}>Reset</button>
     </div>
   );
-}
+};
 
-export default function App({ initialValue }: { initialValue: string }) {
+const App: React.FC<{ initialValue: string }> = ({ initialValue }) => {
   const [state, dispatch] = useReducer(reducer, { text: initialValue });
   return (
     <InputContext.Provider value={state}>
@@ -62,5 +68,6 @@ export default function App({ initialValue }: { initialValue: string }) {
       </DispatchContext.Provider>
     </InputContext.Provider>
   );
-}
+};
 
+export default App;
