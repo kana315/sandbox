@@ -8,7 +8,7 @@ module.exports = {
     "prettier",
     "prettier/@typescript-eslint"
   ],
-  plugins: ["@typescript-eslint", "react"],
+  plugins: ["@typescript-eslint", "react", "react-hooks"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: 6,
