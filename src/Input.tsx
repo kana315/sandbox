@@ -16,6 +16,8 @@ interface InputAction {
 }
 
 const initialText: InputState = { text: "" };
+const InputContext = React.createContext<InputState>(initialText);
+const DispatchContext = React.createContext<Dispatch<InputAction>>(null as any);
 
 const reducer: React.Reducer<InputState, InputAction> = (state, action) => {
   switch (action.actionType) {
